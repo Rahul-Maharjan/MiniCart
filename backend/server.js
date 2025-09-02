@@ -7,22 +7,14 @@ if (!process.env.JWT_SECRET || process.env.JWT_SECRET.trim() === "") {
   console.error("FATAL: JWT_SECRET is missing in .env");
   process.exit(1);
 }
-const path = require("path");
-const fs = require("fs");
+// (Removed image upload static serving)
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
 
 const app = express(); // Initialize Express app
 app.use(cors()); // Enable CORS
 app.use(express.json()); // Parse JSON bodies
-// Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, "uploads");
-if (!fs.existsSync(uploadsDir)) {
-  fs.mkdirSync(uploadsDir);
-}
-
-// Static file serving for uploaded images
-app.use("/uploads", express.static(uploadsDir));
+// If future static assets needed, mount here.
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);

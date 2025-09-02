@@ -17,13 +17,7 @@ const postProduct = async (req, res) => {
         .status(400)
         .json({ message: "name, price, category are required" });
     }
-    let image;
-    if (req.file) {
-      image = `/uploads/${req.file.filename}`; // served statically
-    } else if (req.body.image) {
-      image = req.body.image; // fallback to URL from body
-    }
-    const product = new Product({ name, price, category, description, image });
+    const product = new Product({ name, price, category, description });
     await product.save();
     res.status(201).json(product);
   } catch (error) {
