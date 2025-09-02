@@ -8,6 +8,7 @@ import Cart from "./pages/Cart.jsx";
 import Orders from "./pages/Orders.jsx";
 import OrderDetail from "./pages/OrderDetail.jsx";
 import { CartProvider } from "./CartContext.jsx";
+import AdminProducts from "./pages/AdminProducts.jsx";
 
 export default function App() {
   const [loggedIn, setLoggedIn] = useState(
@@ -69,6 +70,16 @@ export default function App() {
             path="/orders/:id"
             element={
               loggedIn ? <OrderDetail /> : <Navigate to="/login" replace />
+            }
+          />
+          <Route
+            path="/admin/products"
+            element={
+              loggedIn && localStorage.getItem("role") === "admin" ? (
+                <AdminProducts />
+              ) : (
+                <Navigate to="/products" replace />
+              )
             }
           />
           <Route path="*" element={<Navigate to="/" replace />} />

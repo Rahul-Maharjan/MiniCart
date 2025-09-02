@@ -39,6 +39,7 @@ export default function Signup() {
       const data = await res.json().catch(() => ({}));
       if (!res.ok)
         throw new Error(data.message || data.error || "Signup failed");
+      if (data.role) localStorage.setItem("role", data.role);
       setMessage("Signup successful. Redirecting to login...");
       setTimeout(() => nav("/login"), 900);
     } catch (err) {

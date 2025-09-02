@@ -38,6 +38,11 @@ export default function Navbar({ loggedIn, onLogout }) {
             <NavLink to="/orders" className={linkClass}>
               Orders
             </NavLink>
+            {localStorage.getItem("role") === "admin" && (
+              <NavLink to="/admin/products" className={linkClass}>
+                Admin
+              </NavLink>
+            )}
           </div>
           {/* Right side */}
           <div className="hidden md:flex items-center gap-3">
@@ -141,6 +146,15 @@ export default function Navbar({ loggedIn, onLogout }) {
             >
               Orders
             </NavLink>
+            {localStorage.getItem("role") === "admin" && (
+              <NavLink
+                onClick={() => setMobileOpen(false)}
+                to="/admin/products"
+                className={linkClass}
+              >
+                Admin
+              </NavLink>
+            )}
             {!loggedIn && (
               <>
                 <NavLink

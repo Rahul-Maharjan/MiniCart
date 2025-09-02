@@ -34,6 +34,7 @@ export default function Login({ onLogin }) {
         throw new Error(data.message || data.error || "Login failed");
       setMessage("Login successful");
       if (data.token) localStorage.setItem("token", data.token);
+      if (data.role) localStorage.setItem("role", data.role);
       localStorage.setItem("loggedIn", "1");
       if (onLogin) onLogin(data.token);
       setTimeout(() => nav("/products"), 400);

@@ -27,4 +27,16 @@ const postProduct = async (req, res) => {
   }
 };
 
-module.exports = { getProduct, postProduct };
+const deleteProduct = async (req, res) => {
+  try {
+    const prod = await Product.findById(req.params.id);
+    if (!prod) return res.status(404).json({ message: "Product not found" });
+    await prod.deleteOne();
+    res.json({ message: "Deleted", _id: req.params.id });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: error.message || "Error deleting product" });
+  }
+};
+module.exports = { getProduct, postProduct, deleteProduct };
