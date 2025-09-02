@@ -36,7 +36,7 @@ export default function Login({ onLogin }) {
       if (data.token) localStorage.setItem("token", data.token);
       localStorage.setItem("loggedIn", "1");
       if (onLogin) onLogin(data.token);
-      setTimeout(() => nav("/hello"), 400);
+      setTimeout(() => nav("/products"), 400);
     } catch (err) {
       setMessage(err.message);
     } finally {

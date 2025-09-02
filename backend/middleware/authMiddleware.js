@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
-const { User } = require("../models/userModel");
+// Correct import (userModel exports the model directly)
+const User = require("../models/userModel");
 
 const authMiddleware = async (req, res, next) => {
   try {
@@ -7,14 +8,12 @@ const authMiddleware = async (req, res, next) => {
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id);
+    req.user = await User.findById(decoded.id).select("name email role");
     next();
   } catch (error) {
     return res.status(401).json({ message: "Unauthorized" });
   }
 };
-
-
 
 const adminMiddleware = (req, res, next) => {
   if (req.user?.role !== "admin") {

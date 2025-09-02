@@ -21,7 +21,7 @@ export default function Navbar({ loggedIn, onLogout }) {
           {/* Brand */}
           <div className="flex items-center gap-2">
             <Link
-              to={loggedIn ? "/hello" : "/"}
+              to={loggedIn ? "/products" : "/"}
               className="text-lg font-semibold tracking-tight text-slate-800"
             >
               Mini<span className="text-blue-600">Cart</span>
@@ -29,9 +29,6 @@ export default function Navbar({ loggedIn, onLogout }) {
           </div>
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-2">
-            <NavLink to="/hello" className={linkClass}>
-              Home
-            </NavLink>
             <NavLink to="/products" className={linkClass}>
               Products
             </NavLink>
@@ -117,8 +114,9 @@ export default function Navbar({ loggedIn, onLogout }) {
           <div className="px-4 py-4 flex flex-col gap-2">
             <NavLink
               onClick={() => setMobileOpen(false)}
-              to="/hello"
+              to="/products"
               className={linkClass}
+              end
             >
               Home
             </NavLink>
