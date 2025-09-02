@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import AuthCard from "../components/AuthCard.jsx";
 
 // Correct endpoint path (backend exposes /api/users/login)
-const API_LOGIN = "http://localhost:5000/api/users/login";
+const API_LOGIN = "https://mini-cart-amber.vercel.app/api/users/login";
 
 export default function Login({ onLogin }) {
   const nav = useNavigate();
