@@ -10,6 +10,8 @@ if (!process.env.JWT_SECRET || process.env.JWT_SECRET.trim() === "") {
 // (Removed image upload static serving)
 const productRoutes = require("./routes/productRoutes");
 const userRoutes = require("./routes/userRoutes");
+const testRouters = require("./routes/testRoutes");
+
 
 const app = express(); // Initialize Express app
 app.use(cors()); // Enable CORS
@@ -18,6 +20,7 @@ app.use(express.json()); // Parse JSON bodies
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
+app.use("/api/test", testRouters);
 
 // Connect to MongoDB
 mongoose
