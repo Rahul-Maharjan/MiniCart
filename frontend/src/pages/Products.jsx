@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { apiProducts } from "../api";
 import { useCart } from "../CartContext";
+import { useToast } from "../ToastContext";
 
 export default function Products() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const { add } = useCart();
+  const toast = useToast();
 
   useEffect(() => {
     let active = true;
@@ -37,7 +39,10 @@ export default function Products() {
             <p className="text-sm text-slate-500 mb-2">{p.category}</p>
             <p className="font-semibold mb-4">${p.price}</p>
             <button
-              onClick={() => add(p)}
+              onClick={() => {
+                add(p);
+                toast?.push(`Added ${p.name} to cart`);
+              }}
               className="mt-auto text-sm rounded-md bg-blue-600 hover:bg-blue-700 text-white py-1.5"
             >
               Add to Cart

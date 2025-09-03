@@ -8,6 +8,7 @@ import Cart from "./pages/Cart.jsx";
 import Orders from "./pages/Orders.jsx";
 import OrderDetail from "./pages/OrderDetail.jsx";
 import { CartProvider } from "./CartContext.jsx";
+import { ToastProvider } from "./ToastContext.jsx";
 import AdminProducts from "./pages/AdminProducts.jsx";
 
 export default function App() {
@@ -29,62 +30,66 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <CartProvider>
-        {loggedIn && <Navbar loggedIn={loggedIn} onLogout={handleLogout} />}
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Navigate to={loggedIn ? "/products" : "/login"} replace />
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              loggedIn ? (
-                <Navigate to="/products" replace />
-              ) : (
-                <Login onLogin={handleLogin} />
-              )
-            }
-          />
-          <Route
-            path="/signup"
-            element={
-              loggedIn ? <Navigate to="/products" replace /> : <Signup />
-            }
-          />
-          <Route
-            path="/products"
-            element={loggedIn ? <Products /> : <Navigate to="/login" replace />}
-          />
-          <Route
-            path="/cart"
-            element={loggedIn ? <Cart /> : <Navigate to="/login" replace />}
-          />
-          <Route
-            path="/orders"
-            element={loggedIn ? <Orders /> : <Navigate to="/login" replace />}
-          />
-          <Route
-            path="/orders/:id"
-            element={
-              loggedIn ? <OrderDetail /> : <Navigate to="/login" replace />
-            }
-          />
-          <Route
-            path="/admin/products"
-            element={
-              loggedIn && localStorage.getItem("role") === "admin" ? (
-                <AdminProducts />
-              ) : (
-                <Navigate to="/products" replace />
-              )
-            }
-          />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </CartProvider>
+      <ToastProvider>
+        <CartProvider>
+          {loggedIn && <Navbar loggedIn={loggedIn} onLogout={handleLogout} />}
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Navigate to={loggedIn ? "/products" : "/login"} replace />
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                loggedIn ? (
+                  <Navigate to="/products" replace />
+                ) : (
+                  <Login onLogin={handleLogin} />
+                )
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                loggedIn ? <Navigate to="/products" replace /> : <Signup />
+              }
+            />
+            <Route
+              path="/products"
+              element={
+                loggedIn ? <Products /> : <Navigate to="/login" replace />
+              }
+            />
+            <Route
+              path="/cart"
+              element={loggedIn ? <Cart /> : <Navigate to="/login" replace />}
+            />
+            <Route
+              path="/orders"
+              element={loggedIn ? <Orders /> : <Navigate to="/login" replace />}
+            />
+            <Route
+              path="/orders/:id"
+              element={
+                loggedIn ? <OrderDetail /> : <Navigate to="/login" replace />
+              }
+            />
+            <Route
+              path="/admin/products"
+              element={
+                loggedIn && localStorage.getItem("role") === "admin" ? (
+                  <AdminProducts />
+                ) : (
+                  <Navigate to="/products" replace />
+                )
+              }
+            />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </CartProvider>
+      </ToastProvider>
     </BrowserRouter>
   );
 }
