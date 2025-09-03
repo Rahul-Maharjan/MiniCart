@@ -72,75 +72,125 @@ export default function AdminProducts() {
   }
 
   return (
-    <div className="max-w-5xl mx-auto p-4 space-y-8">
-      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-        <h1 className="text-xl font-semibold">Admin Products</h1>
+    <div className="max-w-6xl mx-auto p-6 space-y-10">
+      <header className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <h1 className="text-2xl font-bold text-slate-800">Admin Products</h1>
         <button
           onClick={load}
-          className="self-start rounded-md border px-3 py-1.5 text-sm bg-white hover:bg-slate-50"
+          className="self-start rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 font-medium px-4 py-2 text-sm shadow-sm transition-colors"
         >
           Refresh
         </button>
       </header>
-      <section className="border rounded-lg p-4 bg-white space-y-4">
-        <h2 className="font-medium text-sm">Create Product</h2>
-        <form onSubmit={handleCreate} className="grid gap-3 sm:grid-cols-2">
-          <input
-            name="name"
-            placeholder="Name"
-            value={form.name}
-            onChange={handleChange}
-            required
-            className="rounded-md border px-2 py-1 text-sm"
-          />
-          <input
-            name="price"
-            placeholder="Price"
-            type="number"
-            step="0.01"
-            value={form.price}
-            onChange={handleChange}
-            required
-            className="rounded-md border px-2 py-1 text-sm"
-          />
-          <input
-            name="category"
-            placeholder="Category"
-            value={form.category}
-            onChange={handleChange}
-            required
-            className="rounded-md border px-2 py-1 text-sm"
-          />
-          <input
-            name="description"
-            placeholder="Description"
-            value={form.description}
-            onChange={handleChange}
-            className="rounded-md border px-2 py-1 text-sm"
-          />
+      <section className="bg-white rounded-xl shadow-sm border border-slate-100 p-6 space-y-6">
+        <h2 className="text-lg font-semibold text-slate-800">
+          Create New Product
+        </h2>
+        <form onSubmit={handleCreate} className="grid gap-4 sm:grid-cols-2">
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-slate-600">
+              Name
+            </label>
+            <input
+              name="name"
+              placeholder="Product name"
+              value={form.name}
+              onChange={handleChange}
+              required
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-slate-600">
+              Price
+            </label>
+            <input
+              name="price"
+              placeholder="0.00"
+              type="number"
+              step="0.01"
+              value={form.price}
+              onChange={handleChange}
+              required
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-slate-600">
+              Category
+            </label>
+            <input
+              name="category"
+              placeholder="e.g., Electronics"
+              value={form.category}
+              onChange={handleChange}
+              required
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+          </div>
+          <div className="space-y-1">
+            <label className="block text-sm font-medium text-slate-600">
+              Description
+            </label>
+            <input
+              name="description"
+              placeholder="Optional description"
+              value={form.description}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+            />
+          </div>
           <button
             disabled={creating}
-            className="sm:col-span-2 rounded-md bg-blue-600 text-white text-sm py-2 hover:bg-blue-700 disabled:opacity-60"
+            className="sm:col-span-2 w-full rounded-lg bg-blue-600 hover:bg-blue-700 disabled:opacity-60 disabled:cursor-not-allowed text-white font-medium py-3 text-sm shadow-sm transition-colors"
           >
-            {creating ? "Creating..." : "Create"}
+            {creating ? "Creating..." : "Create Product"}
           </button>
         </form>
-        {error && <p className="text-xs text-red-600">{error}</p>}
+        {error && (
+          <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg p-3">
+            {error}
+          </p>
+        )}
       </section>
       <section>
-        <h2 className="font-medium text-sm mb-3">Existing Products</h2>
+        <h2 className="text-lg font-semibold text-slate-800 mb-6">
+          Existing Products
+        </h2>
         {loading ? (
-          <p>Loading...</p>
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-sm text-slate-500">Loading products...</p>
+          </div>
+        ) : products.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="text-6xl mb-4">📦</div>
+            <h3 className="text-lg font-medium text-slate-600 mb-2">
+              No products yet
+            </h3>
+            <p className="text-sm text-slate-500">
+              Create your first product above.
+            </p>
+          </div>
         ) : (
-          <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
             {products.map((p) => (
-              <div key={p._id} className="border rounded-md p-3 flex flex-col">
-                <h3 className="font-medium text-sm mb-1 truncate">{p.name}</h3>
-                <p className="text-xs text-slate-500 mb-1">{p.category}</p>
-                <p className="text-sm font-semibold mb-3">${p.price}</p>
+              <div
+                key={p._id}
+                className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 p-5 flex flex-col border border-slate-100"
+              >
+                <h3 className="font-semibold text-slate-800 mb-2 truncate text-base">
+                  {p.name}
+                </h3>
+                <p className="text-xs text-slate-500 uppercase tracking-wide mb-3">
+                  {p.category}
+                </p>
+                <p className="text-lg font-bold text-slate-900 mb-4">
+                  ${p.price}
+                </p>
                 <button
                   onClick={() => handleDelete(p._id)}
-                  className="mt-auto text-xs rounded-md bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 py-1"
+                  className="mt-auto w-full rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-medium py-2.5 text-sm border border-red-200 transition-colors"
                 >
                   Delete
                 </button>
@@ -148,7 +198,6 @@ export default function AdminProducts() {
             ))}
           </div>
         )}
-        {!loading && products.length === 0 && <p>No products.</p>}
       </section>
     </div>
   );

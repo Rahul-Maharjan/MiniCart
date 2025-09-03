@@ -32,24 +32,45 @@ export default function Products() {
   return (
     <PageWrap>
       <h1 className="text-xl font-semibold mb-4">Products</h1>
-      <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-        {products.map((p) => (
-          <div key={p._id} className="border rounded-lg p-4 flex flex-col">
-            <h2 className="font-medium mb-1 truncate">{p.name}</h2>
-            <p className="text-sm text-slate-500 mb-2">{p.category}</p>
-            <p className="font-semibold mb-4">${p.price}</p>
-            <button
-              onClick={() => {
-                add(p);
-                toast?.push(`Added ${p.name} to cart`);
-              }}
-              className="mt-auto text-sm rounded-md bg-blue-600 hover:bg-blue-700 text-white py-1.5"
+      {products.length === 0 ? (
+        <div className="text-center py-12">
+          <div className="text-6xl mb-4">🛒</div>
+          <h2 className="text-lg font-medium text-slate-600 mb-2">
+            No products available
+          </h2>
+          <p className="text-sm text-slate-500">
+            Check back later for new items.
+          </p>
+        </div>
+      ) : (
+        <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {products.map((p) => (
+            <div
+              key={p._id}
+              className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 p-5 flex flex-col border border-slate-100"
             >
-              Add to Cart
-            </button>
-          </div>
-        ))}
-      </div>
+              <h2 className="font-semibold text-slate-800 mb-2 truncate text-base">
+                {p.name}
+              </h2>
+              <p className="text-xs text-slate-500 uppercase tracking-wide mb-3">
+                {p.category}
+              </p>
+              <p className="text-lg font-bold text-slate-900 mb-4">
+                ${p.price}
+              </p>
+              <button
+                onClick={() => {
+                  add(p);
+                  toast?.push(`Added ${p.name} to cart`);
+                }}
+                className="mt-auto w-full rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 text-sm transition-colors"
+              >
+                Add to Cart
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
     </PageWrap>
   );
 }
