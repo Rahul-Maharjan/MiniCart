@@ -97,7 +97,9 @@ const updatePassword = async (req, res) => {
   try {
     const { currentPassword, newPassword } = req.body;
     if (!currentPassword || !newPassword) {
-      return res.status(400).json({ message: "Please provide current and new password" });
+      return res
+        .status(400)
+        .json({ message: "Please provide current and new password" });
     }
 
     const user = await User.findById(req.user.id);

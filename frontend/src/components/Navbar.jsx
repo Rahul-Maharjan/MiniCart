@@ -21,7 +21,7 @@ export default function Navbar({ loggedIn, onLogout }) {
           {/* Brand */}
           <div className="flex items-center gap-2">
             <Link
-              to={loggedIn ? "/products" : "/"}
+              to="/"
               className="text-lg font-semibold tracking-tight text-slate-800"
             >
               Mini<span className="text-blue-600">Cart</span>
@@ -29,18 +29,31 @@ export default function Navbar({ loggedIn, onLogout }) {
           </div>
           {/* Desktop links */}
           <div className="hidden md:flex items-center gap-2">
-            <NavLink to="/products" className={linkClass}>
-              Products
+            <NavLink to="/" className={linkClass} end>
+              Home
             </NavLink>
-            <NavLink to="/cart" className={linkClass}>
-              Cart
+            <NavLink to="/about" className={linkClass}>
+              About
             </NavLink>
-            <NavLink to="/orders" className={linkClass}>
-              Orders
-            </NavLink>
-            <NavLink to="/account" className={linkClass}>
-              Account
-            </NavLink>
+            {loggedIn && (
+              <>
+                <NavLink to="/products" className={linkClass}>
+                  Products
+                </NavLink>
+                <NavLink to="/cart" className={linkClass}>
+                  Cart
+                </NavLink>
+                <NavLink to="/wishlist" className={linkClass}>
+                  Wishlist
+                </NavLink>
+                <NavLink to="/orders" className={linkClass}>
+                  Orders
+                </NavLink>
+                <NavLink to="/account" className={linkClass}>
+                  Account
+                </NavLink>
+              </>
+            )}
             {localStorage.getItem("role") === "admin" && (
               <NavLink to="/admin/products" className={linkClass}>
                 Admin
@@ -122,7 +135,7 @@ export default function Navbar({ loggedIn, onLogout }) {
           <div className="px-4 py-4 flex flex-col gap-2">
             <NavLink
               onClick={() => setMobileOpen(false)}
-              to="/products"
+              to="/"
               className={linkClass}
               end
             >
@@ -130,32 +143,50 @@ export default function Navbar({ loggedIn, onLogout }) {
             </NavLink>
             <NavLink
               onClick={() => setMobileOpen(false)}
-              to="/products"
+              to="/about"
               className={linkClass}
             >
-              Products
+              About
             </NavLink>
-            <NavLink
-              onClick={() => setMobileOpen(false)}
-              to="/cart"
-              className={linkClass}
-            >
-              Cart
-            </NavLink>
-            <NavLink
-              onClick={() => setMobileOpen(false)}
-              to="/orders"
-              className={linkClass}
-            >
-              Orders
-            </NavLink>
-            <NavLink
-              onClick={() => setMobileOpen(false)}
-              to="/account"
-              className={linkClass}
-            >
-              Account
-            </NavLink>
+            {loggedIn && (
+              <>
+                <NavLink
+                  onClick={() => setMobileOpen(false)}
+                  to="/products"
+                  className={linkClass}
+                >
+                  Products
+                </NavLink>
+                <NavLink
+                  onClick={() => setMobileOpen(false)}
+                  to="/cart"
+                  className={linkClass}
+                >
+                  Cart
+                </NavLink>
+                <NavLink
+                  onClick={() => setMobileOpen(false)}
+                  to="/wishlist"
+                  className={linkClass}
+                >
+                  Wishlist
+                </NavLink>
+                <NavLink
+                  onClick={() => setMobileOpen(false)}
+                  to="/orders"
+                  className={linkClass}
+                >
+                  Orders
+                </NavLink>
+                <NavLink
+                  onClick={() => setMobileOpen(false)}
+                  to="/account"
+                  className={linkClass}
+                >
+                  Account
+                </NavLink>
+              </>
+            )}
             {localStorage.getItem("role") === "admin" && (
               <NavLink
                 onClick={() => setMobileOpen(false)}
