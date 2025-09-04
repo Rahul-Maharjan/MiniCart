@@ -28,6 +28,8 @@ async function api(path, { method = "GET", body, auth = true } = {}) {
 export const apiProducts = () => api("/api/products", { auth: false });
 export const apiCreateProduct = (payload) =>
   api("/api/products", { method: "POST", body: payload });
+export const apiUpdateProduct = (id, payload) =>
+  api(`/api/products/${id}`, { method: "PUT", body: payload });
 export const apiDeleteProduct = (id) =>
   api(`/api/products/${id}`, { method: "DELETE" });
 export const apiCreateOrder = (payload) =>

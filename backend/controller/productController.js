@@ -39,4 +39,27 @@ const deleteProduct = async (req, res) => {
       .json({ message: error.message || "Error deleting product" });
   }
 };
-module.exports = { getProduct, postProduct, deleteProduct };
+
+const updateProduct = async (req, res) => {
+  try {
+    const { name, price, category, description } = req.body;
+    if (!name || !price || !category) {
+      return res
+        .status(400)
+        .json({ message: "name, price, category are required" });
+    }
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { name, price, category, description },
+      { new: true }
+    );
+    if (!product) return res.status(404).json({ message: "Product not found" });
+    res.status(200).json(product);
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: error.message || "Error updating product" });
+  }
+};
+
+module.exports = { getProduct, postProduct, deleteProduct, updateProduct };

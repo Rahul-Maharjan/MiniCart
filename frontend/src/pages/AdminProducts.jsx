@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
-import { apiProducts, apiCreateProduct, apiDeleteProduct } from "../api";
+import {
+  apiProducts,
+  apiCreateProduct,
+  apiDeleteProduct,
+  apiUpdateProduct,
+} from "../api";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminProducts() {
@@ -10,6 +15,13 @@ export default function AdminProducts() {
   const [error, setError] = useState("");
   const [creating, setCreating] = useState(false);
   const [form, setForm] = useState({
+    name: "",
+    price: "",
+    category: "",
+    description: "",
+  });
+  const [editingId, setEditingId] = useState(null);
+  const [editForm, setEditForm] = useState({
     name: "",
     price: "",
     category: "",
@@ -69,6 +81,40 @@ export default function AdminProducts() {
     } catch (e) {
       alert(e.message);
     }
+  }
+
+  function handleEdit(product) {
+    setEditingId(product._id);
+    setEditForm({
+      name: product.name,
+      price: product.price,
+      category: product.category,
+      description: product.description || "",
+    });
+  }
+
+  function handleEditChange(e) {
+    const { name, value } = e.target;
+    setEditForm((f) => ({ ...f, [name]: value }));
+  }
+
+  async function handleSave(id) {
+    try {
+      const updated = await apiUpdateProduct(id, {
+        name: editForm.name.trim(),
+        price: Number(editForm.price),
+        category: editForm.category.trim(),
+        description: editForm.description.trim(),
+      });
+      setProducts((p) => p.map((x) => (x._id === id ? updated : x)));
+      setEditingId(null);
+    } catch (e) {
+      alert(e.message);
+    }
+  }
+
+  function handleCancel() {
+    setEditingId(null);
   }
 
   return (
@@ -179,21 +225,83 @@ export default function AdminProducts() {
                 key={p._id}
                 className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-shadow duration-200 p-5 flex flex-col border border-slate-100"
               >
-                <h3 className="font-semibold text-slate-800 mb-2 truncate text-base">
-                  {p.name}
-                </h3>
-                <p className="text-xs text-slate-500 uppercase tracking-wide mb-3">
-                  {p.category}
-                </p>
-                <p className="text-lg font-bold text-slate-900 mb-4">
-                  ${p.price}
-                </p>
-                <button
-                  onClick={() => handleDelete(p._id)}
-                  className="mt-auto w-full rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-medium py-2.5 text-sm border border-red-200 transition-colors"
-                >
-                  Delete
-                </button>
+                {editingId === p._id ? (
+                  <div className="space-y-4">
+                    <input
+                      name="name"
+                      placeholder="Product name"
+                      value={editForm.name}
+                      onChange={handleEditChange}
+                      required
+                      className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    />
+                    <input
+                      name="price"
+                      placeholder="0.00"
+                      type="number"
+                      step="0.01"
+                      value={editForm.price}
+                      onChange={handleEditChange}
+                      required
+                      className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    />
+                    <input
+                      name="category"
+                      placeholder="e.g., Electronics"
+                      value={editForm.category}
+                      onChange={handleEditChange}
+                      required
+                      className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    />
+                    <input
+                      name="description"
+                      placeholder="Optional description"
+                      value={editForm.description}
+                      onChange={handleEditChange}
+                      className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => handleSave(p._id)}
+                        className="flex-1 rounded-lg bg-green-600 hover:bg-green-700 text-white font-medium py-2 text-sm shadow-sm transition-colors"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={handleCancel}
+                        className="flex-1 rounded-lg bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 text-sm shadow-sm transition-colors"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <>
+                    <h3 className="font-semibold text-slate-800 mb-2 truncate text-base">
+                      {p.name}
+                    </h3>
+                    <p className="text-xs text-slate-500 uppercase tracking-wide mb-3">
+                      {p.category}
+                    </p>
+                    <p className="text-lg font-bold text-slate-900 mb-4">
+                      ${p.price}
+                    </p>
+                    <div className="flex gap-2 mt-auto">
+                      <button
+                        onClick={() => handleEdit(p)}
+                        className="flex-1 rounded-lg bg-blue-50 hover:bg-blue-100 text-blue-600 font-medium py-2.5 text-sm border border-blue-200 transition-colors"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => handleDelete(p._id)}
+                        className="flex-1 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 font-medium py-2.5 text-sm border border-red-200 transition-colors"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
             ))}
           </div>
