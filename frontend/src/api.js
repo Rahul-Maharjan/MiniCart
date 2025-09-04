@@ -36,5 +36,8 @@ export const apiCreateOrder = (payload) =>
   api("/api/orders", { method: "POST", body: payload });
 export const apiMyOrders = () => api("/api/orders/my");
 export const apiOrderById = (id) => api(`/api/orders/${id}`);
+export const apiGetUserDetails = () => api("/api/users/me");
+export const apiUpdatePassword = (payload) =>
+  api("/api/users/update-password", { method: "PUT", body: payload });
 
 export { BASE_URL };

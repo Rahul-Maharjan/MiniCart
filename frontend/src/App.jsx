@@ -7,6 +7,7 @@ import Products from "./pages/Products.jsx";
 import Cart from "./pages/Cart.jsx";
 import Orders from "./pages/Orders.jsx";
 import OrderDetail from "./pages/OrderDetail.jsx";
+import Account from "./pages/Account.jsx";
 import { CartProvider } from "./CartContext.jsx";
 import { ToastProvider } from "./ToastContext.jsx";
 import AdminProducts from "./pages/AdminProducts.jsx";
@@ -75,6 +76,10 @@ export default function App() {
               element={
                 loggedIn ? <OrderDetail /> : <Navigate to="/login" replace />
               }
+            />
+            <Route
+              path="/account"
+              element={loggedIn ? <Account /> : <Navigate to="/login" replace />}
             />
             <Route
               path="/admin/products"

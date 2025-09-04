@@ -38,6 +38,9 @@ export default function Navbar({ loggedIn, onLogout }) {
             <NavLink to="/orders" className={linkClass}>
               Orders
             </NavLink>
+            <NavLink to="/account" className={linkClass}>
+              Account
+            </NavLink>
             {localStorage.getItem("role") === "admin" && (
               <NavLink to="/admin/products" className={linkClass}>
                 Admin
@@ -145,6 +148,13 @@ export default function Navbar({ loggedIn, onLogout }) {
               className={linkClass}
             >
               Orders
+            </NavLink>
+            <NavLink
+              onClick={() => setMobileOpen(false)}
+              to="/account"
+              className={linkClass}
+            >
+              Account
             </NavLink>
             {localStorage.getItem("role") === "admin" && (
               <NavLink
